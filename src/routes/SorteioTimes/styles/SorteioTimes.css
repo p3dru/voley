@@ -1,0 +1,35 @@
+.sorteio{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    text-align: center;
+    align-items: center;
+}
+
+.btn-sorteio{
+    font-weight: bold;
+    border: 1px solid #fff;
+    background-color: #19171f;
+    color: #fff;
+    text-decoration: none;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    transition: 1s;
+    opacity: 1;
+    width: 20%;
+    text-align: center;
+    margin-top: 1%;
+}
+
+.btn-sorteio:hover{
+    opacity: 1;
+    background-color: #fff;
+    color: #19171f;
+    border: 1px solid #19171f;
+}

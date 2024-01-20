@@ -1,0 +1,21 @@
+.login{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+label{
+    margin-top: 10%;
+    margin-bottom: 3%;
+    text-align: center;
+}
+
+.input-login{
+    border: solid #19171f; 
+    border-radius: 1rem;
+    height: 1.5rem;
+    width: max-content;
+    margin-top: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+}

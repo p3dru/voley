@@ -1,0 +1,11 @@
+.footer p{
+    text-align: center;
+    margin-bottom: 0.5%;
+}
+
+footer{
+    position: 'sticky';
+    bottom: 0;
+    z-index: 1000;
+    
+}

@@ -1,0 +1,237 @@
+1 - Criar o app react com: npx create-react-app [nome-projeto] --template typescript (ts)
+2 - Em App.tsx, criar uma estrutura semelhante à essa (esse é o aplicativo geral):
+import './App.css';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
+
+function App() {
+  return (
+    <div>
+      <Navbar/>
+      <div className="container">
+        <Outlet/>
+      </div>
+    </div>
+  )
+}
+
+export default App;
+
+onde a Navbar é um componente react que criamos
+
+3 - Em index.tsx (que é a main.jsx em apps react js):
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+/*
+onde router são todas as rotas do app que queremos criar dentro do App,
+sendo as childrens dele, contendo path que é o caminho/url e o element,
+é o elemento a ser renderizado quando atinge essa rota específica.
+/*
+const router = createBrowserRouter([
+  {
+    element: <App/>,
+    children: [
+      {
+        path:"/",
+        element: <Home />
+      },
+    ]
+  }
+])
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
+
+4 - Para organizarmos melhor a estrutura, fazemos assim:
+src/
+    components/ -> que são recursos que podemos usar em todo o app
+        Compente -> que é o componente tsx em si a ser criado (ex: Navbar, Footer)
+        componente-styles/ -> que é onde fica a estilização
+            Componente.css
+    images/ -> onde ficarão todas as imagens a serem utilizadas no site
+    routes/ -> Onde ficam todas as rotas possíveis de serem renderizadas
+        Subpasta/ -> para melhor organização de outros componentes individuais, como
+por exemplo, Eventos/ (que dentro dele tem CriarEvento.tsx, DetalhesEvento.tsx, EditarEvento.tsx)
+            styles/ -> onde ficam as estilizações comuns entre os componentes de uma determinada
+seção. Ex: Eventos.css.
+
+5 - Sempre que precisarmos de uma nova página acessível via link, precisamos inserir o seu path
+e seu element dentro da children de App em Index.tsx.
+
+6 - Como boa prática, sempre deixar os styles dentro do componente correspondente
+
+7 - Para criar listas ou elementos que serão renderizados na tela:
+7.1 - Criamos uma const [nomeDoElemento, setNomeDoElemento] = useState<tipo>(valor inicial (para array = []))
+7.2 - Para fazermos alterações, criamos functions:
+    const nomeFuncao = (dados da funcao, variaveis, tipos e afins) => {
+      setNomeDoElemento(operação a ser feita)
+    }
+
+    exemplos:
+    const addItemToList = (list: string[], item: string, setList: React.Dispatch<React.SetStateAction<string[]>>) => {
+      setList([...list, item]);
+      //o setList é apenas uma abstração que permite utilizar qualquer lista inserida em list
+      //a ordem é a seguinte: setList() que invoca o useState da list
+      //[...list, item], que adiciona ao final da lista o item
+    };
+
+    const removeItemFromList = (list: string[], item: string, setList: React.Dispatch<React.SetStateAction<string[]>>) => {
+      setList(list.filter(i => i !== item));
+    };
+
+    const collectItems = () => {
+      const allItems = [...capitaes, ...levantadores, ...liberos, ...pontas];
+      console.log(allItems);
+    }
+
+7.3 - Para renderizar, tem de ficar dentro do return:
+  ex:
+    return (
+        <div>
+            <h1>Jogadores por Posições</h1>
+                <div className='container'>
+                <div className='posicoes'>
+                    <h3>Capitães</h3>
+                    <input type='text' placeholder="Adicionar" onKeyDown={event => {
+                        if(event.key === 'Enter'){
+                          //event.currentTarget.value = ao valor do local onde está sendo recebido o valor
+                            addItemToList(capitaes, event.currentTarget.value, setCapitaes);
+                            event.currentTarget.value = '';
+                        }
+                    }} />
+                    <ul>
+                        {capitaes.map((item, index) => (
+                          //onClick é o que será executado quando o botão for clicado
+                            <li key={index}>{item} <button onClick={() => removeItemFromList(capitaes, item, setCapitaes)}>Remove</button></li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='posicoes'>
+                    <h3>Levantadores</h3>
+                    <input type='text' placeholder="Adicionar" onKeyDown={event => {
+                        if(event.key === 'Enter'){
+                            addItemToList(levantadores, event.currentTarget.value, setLevantadores);
+                            event.currentTarget.value = '';
+                        }
+                    }} />
+                    <ul>
+                        {levantadores.map((item, index) => (
+                            <li key={index}>{item} <button onClick={() => removeItemFromList(levantadores, item, setLevantadores)}>Remove</button></li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='posicoes'>
+                    <h3>Líberos</h3>
+                    <input type='text' placeholder="Adicionar" onKeyDown={event => {
+                        if(event.key === 'Enter'){
+                            addItemToList(liberos, event.currentTarget.value, setLiberos);
+                            event.currentTarget.value = '';
+                        }
+                    }} />
+                    <ul>
+                        {liberos.map((item, index) => (
+                            <li key={index}>{item} <button onClick={() => removeItemFromList(liberos, item, setLiberos)}>Remove</button></li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='posicoes'>
+                    <h3>Pontas</h3>
+                    <input type='text' placeholder="Adicionar" onKeyDown={event => {
+                        if(event.key === 'Enter'){
+                            addItemToList(pontas, event.currentTarget.value, setPontas);
+                            event.currentTarget.value = '';
+                        }
+                    }} />
+                    <ul>
+                        {pontas.map((item, index) => (
+                            <li key={index}>{item} <button onClick={() => removeItemFromList(pontas, item, setPontas)}>Remove</button></li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+            <button onClick={collectItems} className='btn-sorteio'>Collect Items</button>
+            <button onClick={salvar} className='btn-sorteio'>Salvar</button>
+            <button onClick={limpar} className='btn-sorteio'>Limpar</button>
+            <Link to={'/admin'} className='btn-sorteio'>Voltar</Link>
+            
+
+            [Criar botão salvar, que salva todos os jogadores com as suas posições em um dicionário];
+            [Criar botão de sortear, que quando clicar, vai aparecer os times na ordem em uma div acima]
+        </div>
+
+8 - Para renderizar condicionalmente, precisamos criar algumas coisas:
+8.1 - Uma const para boolean para que seja alterada quando precisarmos renderizar: const [mostrarTimes, setMostrarTimes] = useState<boolean>(false);
+8.2 - Uma função que será executada quando o botão for selecionado que torna true a exibição do elemento:
+  const sortearTimes = () /*(capitaes: string[], levantadores: string[], liberos: string[], pontas: string[])*/ => {
+          //aqui, é preciso criar uma variável para receber cada uma das posições
+          //seleciona aleatoriamente um jogador de cada posição e junta em um time
+          //após a criação do time, armazenar ele em uma lista (ex: time 1), para poder renderizar
+          /*
+          O PROBLEMA É QUE SERIAM NECESSÁRIOS SEMPRE CRIAR UMA LISTA PARA CADA TIME, MAS AO TODO, NÃO
+          SABEMOS QUANTOS TIMES SERÃO... Mas, dá pra criar uma lista, e dentro dela, colocar outras dentro dela?
+          Assim ficaria: const times = [[cap1, levante1, libero1, ponta1], [cap2, levante2, libero2, ponta2],
+            [cap3, levante3, libero3, ponta3]..., [capX, levanteX, liberoX, pontaX]], daí usaria um for pra
+            percorrer a lista maior e a cada elemento dele, usaríamos um segundo for para renderizar cada elemento
+            de cada time.
+          */
+        setMostrarTimes(!mostrarTimes);  //PARTE IMPORTANTE
+      }
+8.3 - Criar uma div que será rendizada quando o elemento possuir as condições necessárias:
+     {mostrarTimes && <div>Essa é a div que aparecerá quando o botão de Sortear times for clicado</div>}
+     //Aqui, é como se estivesse dizendo: Se mostrarTimes for true, renderize a div após o '&&'
+
+9 - Para alterar uma const que utilize useState e que seja necessário alguma ação adicional sempre que ele for atualizado
+precisamos utilizar o useEffect, exemplo:
+useEffect(() => {
+  //o código abaixo será feito sempre que a dependência do useEffect for alterada
+        console.log('Todos os times selecionados: ', todosOsTimes);
+        //depois da }, é que ficam as dependências, nesse caso, é o [todosOsTimes], abaixo
+       }, [todosOsTimes]);
+E NÃO INTERESSA ONDE O USEEFFECT ESTÁ, ELE SÓ PRECISA ESTAR DENTRO DO COMPONENTE React
+
+10 - Para que possamos armazenar os dados de um array dentro de outro array é necessário, fazer o seguinte:
+const juntarArrays = (array1: string[], array2: string[]) => {
+        //criar um array onde se possa criar um array dentro de outro array -> string[][] (criar um array de arrays string)
+        var combinacao: string[][] = []
+        
+        for(let i: number = 0; i < array1.length; i++){
+            for(let j: number = 0 ; j < array2.length; j++){
+                //aqui, criamos um array com os dados de array1[i] e array2[j], combinando todos ex: [A,F] como resultado
+                combinacao.push([array1[i], array2[j]])
+            }
+        }
+
+        //aqui, inserimos o array de arrays (combinacao, completo (string[][])) dentro de arrayJuntos
+        setArrayJuntos((prevState) => [...prevState, ...combinacao]);
+    }
+
+11 - Para comparar arrays utilizando o conteúdo deles:
+devemos utilizar o JSON.stringify:
+const retirarInversos = (arrayDeArrays: string[][]): string[][] => {
+        let inverso: string[] = []
+        var semInversos: string[][] = [];
+        
+        for(let i: number = 0; i < (arrayDeArrays.length - 1); i++){
+            inverso = arrayDeArrays[i].reverse();
+
+            for(let j: number = i + 1; j < arrayDeArrays.length; j++){
+              //AQUI
+                if(JSON.stringify(inverso) === JSON.stringify(arrayDeArrays[j])){
+                    semInversos.push(inverso);
+                    //console.log(`Inverso encontrado: ${inverso} -> ${arrayDeArrays[j]}`);
+                }
+            }
+        }
+
+        return semInversos;
+    }
