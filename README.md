@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# VoleyAPP (Nome provisório, claro)
+
+Aplicativo destinado à grupos de vôlei que desejam gerenciar times, campeonatos e classificações. Projeto com pouco tempo para desenvolvimento, provavelmente demore bastante a ser finalizado.
+
+Application aimed at volleyball groups who wish to manage teams, championships and classifications. Project with little time for development, will probably take a long time to be completed.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
